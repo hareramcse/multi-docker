@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t hareram/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run hareram/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t hareram/multi-client ./client
+  - docker build -t hareram/multi-nginx ./nginx
+  - docker build -t hareram/multi-server ./server
+  - docker build -t hareram/multi-worker ./worker
+  
+  # Log into Docker CLI 
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take those images and push them to docker hub
+  - docker push hareram/multi-client
+  - docker push hareram/multi-nginx
+  - docker push hareram/multi-server
+  - docker push hareram/multi-worker
