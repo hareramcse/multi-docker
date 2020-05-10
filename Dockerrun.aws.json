@@ -1,6 +1,6 @@
 {
 	"AWSEBDockerrunVersion": 2,
-	"ContainerDefintions": [
+	"containerDefintions": [
 		{
 			"name":"client",
 			"image":"hareram/multi-client",
