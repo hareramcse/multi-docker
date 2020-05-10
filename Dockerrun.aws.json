@@ -1,0 +1,36 @@
+{
+	"AWSEBDockerrunVersion": 2,
+	"ContainerDefintions": [
+		{
+			"name":"client",
+			"image":"hareram/multi-client",
+			"hostname":"client",
+			"essential":false		
+		},
+		{
+			"name":"server",
+			"image":"hareram/multi-server",
+			"hostname":"api",
+			"essential":false		
+		},
+		{
+			"name":"worker",
+			"image":"hareram/multi-worker",
+			"hostname":"worker",
+			"essential":false		
+		},
+		{
+			"name":"nginx",
+			"image":"hareram/multi-nginx",
+			"hostname":"nginx",
+			"essential":true,
+			"portMappings":[
+				{
+					"hostPort":80,
+					"containerPort":80
+				}
+			],
+			"links":["client", "server"]
+		}
+	]
+}
